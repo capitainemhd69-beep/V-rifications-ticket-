@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>V-Check | Voucher Verification</title>
+    <title>CARD-CHECK | Voucher Verification</title>
 
     <style>
         * {
@@ -22,7 +21,7 @@
 
         header {
             height: 72px;
-            background: #ffffff;
+            background: #fff;
             border-bottom: 1px solid #e8ebef;
             display: flex;
             align-items: center;
@@ -49,17 +48,16 @@
             min-height: calc(100vh - 72px);
             display: flex;
             justify-content: center;
-            align-items: center;
             padding: 45px 20px;
         }
 
         .card {
             width: 100%;
-            max-width: 500px;
-            background: white;
+            max-width: 650px;
+            background: #fff;
             border-radius: 18px;
             padding: 38px;
-            box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 35px rgba(0,0,0,.08);
         }
 
         .badge {
@@ -84,19 +82,18 @@
             margin-bottom: 30px;
         }
 
-        label {
+        .field {
+            margin-bottom: 24px;
+        }
+
+        .field-title {
             display: block;
             font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: 700;
+            margin-bottom: 9px;
         }
 
-        .field {
-            margin-bottom: 22px;
-        }
-
-        input,
-        select {
+        input {
             width: 100%;
             height: 52px;
             border: 1px solid #dce1e8;
@@ -107,36 +104,121 @@
             background: #fff;
         }
 
-        input:focus,
-        select:focus {
+        input:focus {
             border-color: #222;
         }
 
-        .countries {
+        /* SEARCH */
+
+        .search-box {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .search-box input {
+            padding-left: 42px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 17px;
+            color: #8a93a3;
+        }
+
+        /* CATEGORIES */
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .category {
+            border: 1px solid #dce1e8;
+            background: #fff;
+            border-radius: 20px;
+            padding: 8px 13px;
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .category.active {
+            background: #1d2433;
+            color: #fff;
+            border-color: #1d2433;
+        }
+
+        /* CARD CATALOGUE */
+
+        .catalogue {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 10px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 3px;
         }
 
-        .country {
+        .voucher {
+            border: 1px solid #dce1e8;
+            border-radius: 11px;
+            padding: 15px;
+            background: #fff;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .voucher:hover {
+            border-color: #222;
+            transform: translateY(-1px);
+        }
+
+        .voucher.selected {
+            border: 2px solid #1d2433;
+            background: #f8f9fb;
+        }
+
+        .voucher-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .voucher-type {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: #8a93a3;
+        }
+
+        .no-results {
+            display: none;
+            color: #8a93a3;
+            font-size: 14px;
+            text-align: center;
+            padding: 25px;
+            grid-column: 1 / -1;
+        }
+
+        /* OTHER FIELDS */
+
+        .country-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        select {
+            width: 100%;
+            height: 52px;
             border: 1px solid #dce1e8;
             border-radius: 9px;
-            padding: 13px;
-            cursor: pointer;
-            font-size: 14px;
+            padding: 0 15px;
+            font-size: 15px;
             background: #fff;
-        }
-
-        .country input {
-            width: auto;
-            height: auto;
-            margin-right: 7px;
-        }
-
-        #otherCountry {
-            display: none;
-            margin-top: 12px;
         }
 
         button {
@@ -145,15 +227,15 @@
             border: none;
             border-radius: 9px;
             background: #1d2433;
-            color: white;
+            color: #fff;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         button:hover {
-            opacity: 0.92;
+            opacity: .92;
         }
 
         .demo {
@@ -172,7 +254,7 @@
             color: #8a93a3;
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 600px) {
             .card {
                 padding: 26px 20px;
             }
@@ -184,6 +266,10 @@
             h1 {
                 font-size: 25px;
             }
+
+            .catalogue {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     </style>
 </head>
@@ -191,125 +277,398 @@
 <body>
 
 <header>
-    <div class="logo">V<span>-CHECK</span></div>
+    <div class="logo">CARD<span>-CHECK</span></div>
     <div class="language">English</div>
 </header>
 
 <main>
 
-    <div class="card">
+<div class="card">
 
-        <div class="badge">Voucher Verification</div>
+    <div class="badge">Voucher Verification</div>
 
-        <h1>Enter your details</h1>
+    <h1>Enter your card details</h1>
 
-        <p class="description">
-            Enter the information below to continue with the verification process.
-        </p>
+    <p class="description">
+        Select your voucher type and enter the information required for this
+        school demonstration.
+    </p>
 
-        <form>
+    <!-- CARD TYPE -->
 
-            <div class="field">
-                <label for="phone">Phone number</label>
-                <input
-                    type="text"
-                    id="phone"
-                    placeholder="Enter your phone number"
-                >
-            </div>
+    <div class="field">
 
-            <div class="field">
-                <label for="amount">Amount</label>
-                <input
-                    type="number"
-                    id="amount"
-                    placeholder="Enter amount"
-                >
-            </div>
+        <span class="field-title">Select your card</span>
 
-            <div class="field">
+        <div class="search-box">
+            <span class="search-icon">⌕</span>
+            <input
+                type="text"
+                id="cardSearch"
+                placeholder="Search for a card..."
+            >
+        </div>
 
-                <label>Select your country</label>
+        <div class="categories">
 
-                <div class="countries">
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Benin">
-                        Benin
-                    </label>
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Nigeria">
-                        Nigeria
-                    </label>
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Togo">
-                        Togo
-                    </label>
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Côte d'Ivoire">
-                        Côte d'Ivoire
-                    </label>
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Mali">
-                        Mali
-                    </label>
-
-                    <label class="country">
-                        <input type="radio" name="country" value="Other" id="otherOption">
-                        Other
-                    </label>
-
-                </div>
-
-                <input
-                    type="text"
-                    id="otherCountry"
-                    placeholder="Enter your country"
-                >
-
-            </div>
-
-            <button type="submit">
-                Continue
+            <button type="button"
+                    class="category active"
+                    data-category="all">
+                All
             </button>
 
-        </form>
+            <button type="button"
+                    class="category"
+                    data-category="prepaid">
+                Prepaid
+            </button>
 
-        <div class="demo">
-            School demonstration project
+            <button type="button"
+                    class="category"
+                    data-category="gaming">
+                Gaming
+            </button>
+
+            <button type="button"
+                    class="category"
+                    data-category="gift">
+                Gift Cards
+            </button>
+
+            <button type="button"
+                    class="category"
+                    data-category="digital">
+                Digital
+            </button>
+
+        </div>
+
+        <div class="catalogue" id="catalogue">
+
+            <div class="voucher" data-name="Paysafecard" data-category="prepaid">
+                <span class="voucher-name">Paysafecard</span>
+                <span class="voucher-type">Prepaid</span>
+            </div>
+
+            <div class="voucher" data-name="Transcash" data-category="prepaid">
+                <span class="voucher-name">Transcash</span>
+                <span class="voucher-type">Prepaid</span>
+            </div>
+
+            <div class="voucher" data-name="Neosurf" data-category="prepaid">
+                <span class="voucher-name">Neosurf</span>
+                <span class="voucher-type">Prepaid</span>
+            </div>
+
+            <div class="voucher" data-name="PCS" data-category="prepaid">
+                <span class="voucher-name">PCS</span>
+                <span class="voucher-type">Prepaid</span>
+            </div>
+
+            <div class="voucher" data-name="Google Play" data-category="gift">
+                <span class="voucher-name">Google Play</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Apple Gift Card" data-category="gift">
+                <span class="voucher-name">Apple Gift Card</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Steam" data-category="gaming">
+                <span class="voucher-name">Steam</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="PlayStation Store" data-category="gaming">
+                <span class="voucher-name">PlayStation Store</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Xbox" data-category="gaming">
+                <span class="voucher-name">Xbox</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Nintendo eShop" data-category="gaming">
+                <span class="voucher-name">Nintendo eShop</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Roblox" data-category="gaming">
+                <span class="voucher-name">Roblox</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Razer Gold" data-category="gaming">
+                <span class="voucher-name">Razer Gold</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Riot Games" data-category="gaming">
+                <span class="voucher-name">Riot Games</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="EA" data-category="gaming">
+                <span class="voucher-name">EA</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Blizzard" data-category="gaming">
+                <span class="voucher-name">Blizzard</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Amazon" data-category="gift">
+                <span class="voucher-name">Amazon</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Netflix" data-category="digital">
+                <span class="voucher-name">Netflix</span>
+                <span class="voucher-type">Digital</span>
+            </div>
+
+            <div class="voucher" data-name="Spotify" data-category="digital">
+                <span class="voucher-name">Spotify</span>
+                <span class="voucher-type">Digital</span>
+            </div>
+
+            <div class="voucher" data-name="Uber" data-category="gift">
+                <span class="voucher-name">Uber</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Uber Eats" data-category="gift">
+                <span class="voucher-name">Uber Eats</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Airbnb" data-category="gift">
+                <span class="voucher-name">Airbnb</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Zalando" data-category="gift">
+                <span class="voucher-name">Zalando</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Sephora" data-category="gift">
+                <span class="voucher-name">Sephora</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Carrefour" data-category="gift">
+                <span class="voucher-name">Carrefour</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Fnac" data-category="gift">
+                <span class="voucher-name">Fnac</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="IKEA" data-category="gift">
+                <span class="voucher-name">IKEA</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Decathlon" data-category="gift">
+                <span class="voucher-name">Decathlon</span>
+                <span class="voucher-type">Gift Card</span>
+            </div>
+
+            <div class="voucher" data-name="Google Play Games" data-category="digital">
+                <span class="voucher-name">Google Play Games</span>
+                <span class="voucher-type">Digital</span>
+            </div>
+
+            <div class="voucher" data-name="Apple Store" data-category="digital">
+                <span class="voucher-name">Apple Store</span>
+                <span class="voucher-type">Digital</span>
+            </div>
+
+            <div class="voucher" data-name="Gaming Voucher" data-category="gaming">
+                <span class="voucher-name">Gaming Voucher</span>
+                <span class="voucher-type">Gaming</span>
+            </div>
+
+            <div class="voucher" data-name="Digital Voucher" data-category="digital">
+                <span class="voucher-name">Digital Voucher</span>
+                <span class="voucher-type">Digital</span>
+            </div>
+
+            <div class="voucher" data-name="Other" data-category="all">
+                <span class="voucher-name">Other</span>
+                <span class="voucher-type">Other</span>
+            </div>
+
+            <div class="no-results" id="noResults">
+                No card found.
+            </div>
+
         </div>
 
     </div>
 
+    <!-- COUNTRY -->
+
+    <div class="field">
+
+        <span class="field-title">Card country</span>
+
+        <select id="country">
+            <option value="">Select card country</option>
+            <option>France</option>
+            <option>Greece</option>
+            <option>Cyprus</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Germany</option>
+            <option>Italy</option>
+            <option>Spain</option>
+            <option>Belgium</option>
+            <option>Netherlands</option>
+            <option>Portugal</option>
+            <option>Switzerland</option>
+            <option>Austria</option>
+            <option>Ireland</option>
+            <option>Canada</option>
+            <option>Australia</option>
+            <option>Norway</option>
+            <option>Sweden</option>
+            <option>Denmark</option>
+            <option>Finland</option>
+            <option>Benin</option>
+            <option>Nigeria</option>
+            <option>Togo</option>
+            <option>Côte d'Ivoire</option>
+            <option>Mali</option>
+            <option>Other</option>
+        </select>
+
+    </div>
+
+    <!-- NUMBER -->
+
+    <div class="field">
+
+        <span class="field-title">Card / Voucher Number</span>
+
+        <input
+            type="text"
+            id="cardNumber"
+            placeholder="Enter demo card number"
+        >
+
+    </div>
+
+    <!-- AMOUNT -->
+
+    <div class="field">
+
+        <span class="field-title">Amount</span>
+
+        <input
+            type="number"
+            id="amount"
+            placeholder="Enter amount"
+        >
+
+    </div>
+
+    <button type="button">
+        Continue
+    </button>
+
+    <div class="demo">
+        School demonstration project · Use demo information only
+    </div>
+
+</div>
+
 </main>
 
 <footer>
-    © 2026 V-Check · School Project
+    © 2026 CARD-CHECK · School Project
 </footer>
 
 <script>
-    const otherOption = document.getElementById("otherOption");
-    const otherCountry = document.getElementById("otherCountry");
 
-    document.querySelectorAll('input[name="country"]').forEach(function(radio) {
+    const search = document.getElementById("cardSearch");
+    const cards = document.querySelectorAll(".voucher");
+    const categories = document.querySelectorAll(".category");
+    const noResults = document.getElementById("noResults");
 
-        radio.addEventListener("change", function() {
+    let selectedCategory = "all";
 
-            if (otherOption.checked) {
-                otherCountry.style.display = "block";
+    function filterCards() {
+
+        const searchValue = search.value.toLowerCase().trim();
+
+        let visible = 0;
+
+        cards.forEach(function(card) {
+
+            const name = card.dataset.name.toLowerCase();
+            const category = card.dataset.category;
+
+            const matchesSearch = name.includes(searchValue);
+
+            const matchesCategory =
+                selectedCategory === "all" ||
+                category === selectedCategory;
+
+            if (matchesSearch && matchesCategory) {
+                card.style.display = "block";
+                visible++;
             } else {
-                otherCountry.style.display = "none";
-                otherCountry.value = "";
+                card.style.display = "none";
             }
 
         });
 
+        noResults.style.display =
+            visible === 0 ? "block" : "none";
+    }
+
+    search.addEventListener("input", filterCards);
+
+    categories.forEach(function(categoryButton) {
+
+        categoryButton.addEventListener("click", function() {
+
+            categories.forEach(function(button) {
+                button.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+            selectedCategory = this.dataset.category;
+
+            filterCards();
+
+        });
+
     });
+
+    cards.forEach(function(card) {
+
+        card.addEventListener("click", function() {
+
+            cards.forEach(function(item) {
+                item.classList.remove("selected");
+            });
+
+            this.classList.add("selected");
+
+        });
+
+    });
+
 </script>
 
 </body>
-  </html>
+    </html>
