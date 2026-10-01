@@ -1,1 +1,315 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>V-Check | Voucher Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #1d2433;
+        }
+
+        header {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8ebef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            font-weight: 400;
+        }
+
+        .language {
+            font-size: 14px;
+            color: #555;
+        }
+
+        main {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 18px;
+            padding: 38px;
+            box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f0f3f7;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 29px;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #697386;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #dce1e8;
+            border-radius: 9px;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #222;
+        }
+
+        .countries {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .country {
+            border: 1px solid #dce1e8;
+            border-radius: 9px;
+            padding: 13px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .country input {
+            width: auto;
+            height: auto;
+            margin-right: 7px;
+        }
+
+        #otherCountry {
+            display: none;
+            margin-top: 12px;
+        }
+
+        button {
+            width: 100%;
+            height: 54px;
+            border: none;
+            border-radius: 9px;
+            background: #1d2433;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.92;
+        }
+
+        .demo {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #8a93a3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #8a93a3;
+        }
+
+        @media (max-width: 520px) {
+            .card {
+                padding: 26px 20px;
+            }
+
+            header {
+                padding: 0 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">V<span>-CHECK</span></div>
+    <div class="language">English</div>
+</header>
+
+<main>
+
+    <div class="card">
+
+        <div class="badge">Voucher Verification</div>
+
+        <h1>Enter your details</h1>
+
+        <p class="description">
+            Enter the information below to continue with the verification process.
+        </p>
+
+        <form>
+
+            <div class="field">
+                <label for="phone">Phone number</label>
+                <input
+                    type="text"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                >
+            </div>
+
+            <div class="field">
+                <label for="amount">Amount</label>
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Enter amount"
+                >
+            </div>
+
+            <div class="field">
+
+                <label>Select your country</label>
+
+                <div class="countries">
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Benin">
+                        Benin
+                    </label>
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Nigeria">
+                        Nigeria
+                    </label>
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Togo">
+                        Togo
+                    </label>
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Côte d'Ivoire">
+                        Côte d'Ivoire
+                    </label>
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Mali">
+                        Mali
+                    </label>
+
+                    <label class="country">
+                        <input type="radio" name="country" value="Other" id="otherOption">
+                        Other
+                    </label>
+
+                </div>
+
+                <input
+                    type="text"
+                    id="otherCountry"
+                    placeholder="Enter your country"
+                >
+
+            </div>
+
+            <button type="submit">
+                Continue
+            </button>
+
+        </form>
+
+        <div class="demo">
+            School demonstration project
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    © 2026 V-Check · School Project
+</footer>
+
+<script>
+    const otherOption = document.getElementById("otherOption");
+    const otherCountry = document.getElementById("otherCountry");
+
+    document.querySelectorAll('input[name="country"]').forEach(function(radio) {
+
+        radio.addEventListener("change", function() {
+
+            if (otherOption.checked) {
+                otherCountry.style.display = "block";
+            } else {
+                otherCountry.style.display = "none";
+                otherCountry.value = "";
+            }
+
+        });
+
+    });
+</script>
+
+</body>
+  </html>
