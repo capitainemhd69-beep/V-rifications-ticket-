@@ -405,6 +405,39 @@ footer {
         padding: 24px 15px;
     }
 }
+     /* DEMO RESULT */
+
+.demo-result {
+    display: none;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid #f0d3d3;
+    background: #fff7f7;
+    border-radius: 10px;
+    color: #a33a3a;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.demo-result strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+     }
+     const continueButton = document.getElementById("continueButton");
+const demoResult = document.getElementById("demoResult");
+
+continueButton.addEventListener("click", function() {
+
+    demoResult.style.display = "block";
+
+    demoResult.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+});
 </style>
 </head>
 
@@ -711,10 +744,14 @@ footer {
         >
 
     </div>
+<button type="button" id="continueButton">
+    Continue
+</button>
 
-    <button type="button">
-        Continue
-    </button>
+<div class="demo-result" id="demoResult">
+    <strong>Ticket invalid</strong>
+    The entered ticket is not valid.
+</div>
 
     <div class="demo">
         dundle.com | Korsit B.V.
