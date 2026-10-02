@@ -425,19 +425,7 @@ footer {
     font-size: 14px;
     margin-bottom: 4px;
      }
-     const continueButton = document.getElementById("continueButton");
-const demoResult = document.getElementById("demoResult");
-
-continueButton.addEventListener("click", function() {
-
-    demoResult.style.display = "block";
-
-    demoResult.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
-});
+   
 </style>
 </head>
 
@@ -838,6 +826,19 @@ Zwembadweg 12, 5611KS Eindhoven, Pays-Bas
         });
 
     });
+    const continueButton = document.getElementById("continueButton");
+const demoResult = document.getElementById("demoResult");
+
+continueButton.addEventListener("click", function() {
+
+    demoResult.style.display = "block";
+
+    demoResult.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+});
 
 </script>
 
